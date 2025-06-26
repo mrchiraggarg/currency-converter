@@ -82,86 +82,87 @@ const Result = styled.div`
 `;
 
 interface CurrencyData {
-  [key: string]: {
-    description: string;
-  }
+    [key: string]: {
+        description: string;
+    }
 }
 
 const CurrencyConverter: React.FC = () => {
-  const [currencies, setCurrencies] = useState<CurrencyData>({});
-  const [from, setFrom] = useState("USD");
-  const [to, setTo] = useState("INR");
-  const [amount, setAmount] = useState(1);
-  const [result, setResult] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
+    const [currencies, setCurrencies] = useState<CurrencyData>({});
+    const [from, setFrom] = useState("USD");
+    const [to, setTo] = useState("INR");
+    const [amount, setAmount] = useState(1);
+    const [result, setResult] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
 
-  // Fetch currency symbols
-  useEffect(() => {
-    fetch("http://api.exchangeratesapi.io/v1/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
-      .then(res => res.json())
-      .then(data => setCurrencies(data.symbols));
-  }, []);
+    // Fetch currency symbols
+    useEffect(() => {
+        fetch("http://api.exchangeratesapi.io/v1/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
+            .then(res => res.json())
+            .then(data => setCurrencies(data.symbols));
+    }, []);
 
-  // Convert on button click
-  const convert = async () => {
-    setLoading(true);
-    const res = await fetch(
-      `http://api.exchangeratesapi.io/v1/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
+    // Convert on button click
+    const convert = async () => {
+        setLoading(true);
+        const res = await fetch(
+            `http://api.exchangeratesapi.io/v1/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
+        );
+        const data = await res.json();
+        setResult(data.result);
+        setLoading(false);
+    };
+
+    // Swap currencies
+    const swap = () => {
+        setFrom(to);
+        setTo(from);
+        setResult(null);
+    }
+
+    return (
+        <Container>
+            <Title>
+                {FaRobot({})}
+                Currency Converter
+            </Title>
+            <div>
+                <Input
+                    type="number"
+                    value={amount}
+                    min={1}
+                    onChange={e => setAmount(+e.target.value)}
+                />
+                <Select value={from} onChange={e => setFrom(e.target.value)}>
+                    {Object.entries(currencies).map(([code, data]) =>
+                        <option key={code} value={code}>
+                            {code} - {data.description}
+                        </option>
+                    )}
+                </Select>
+            </div>
+            <Button onClick={swap} title="Swap Currencies">
+                <FaSync /> Swap
+            </Button>
+            <div>
+                <Select value={to} onChange={e => setTo(e.target.value)}>
+                    {Object.entries(currencies).map(([code, data]) =>
+                        <option key={code} value={code}>
+                            {code} - {data.description}
+                        </option>
+                    )}
+                </Select>
+            </div>
+            <Button onClick={convert} disabled={loading}>
+                {loading ? "Converting..." : "Convert"}
+            </Button>
+            {result !== null && (
+                <Result>
+                    {amount} {from} ≈ <span style={{ color: "#00ffe7", fontWeight: "bold" }}>{result.toFixed(2)} {to}</span>
+                </Result>
+            )}
+        </Container>
     );
-    const data = await res.json();
-    setResult(data.result);
-    setLoading(false);
-  };
-
-  // Swap currencies
-  const swap = () => {
-    setFrom(to);
-    setTo(from);
-    setResult(null);
-  }
-
-  return (
-    <Container>
-      <Title>
-        <FaRobot /> Currency Converter
-      </Title>
-      <div>
-        <Input
-          type="number"
-          value={amount}
-          min={1}
-          onChange={e => setAmount(+e.target.value)}
-        />
-        <Select value={from} onChange={e => setFrom(e.target.value)}>
-          {Object.entries(currencies).map(([code, data]) =>
-            <option key={code} value={code}>
-              {code} - {data.description}
-            </option>
-          )}
-        </Select>
-      </div>
-      <Button onClick={swap} title="Swap Currencies">
-        <FaSync /> Swap
-      </Button>
-      <div>
-        <Select value={to} onChange={e => setTo(e.target.value)}>
-          {Object.entries(currencies).map(([code, data]) =>
-            <option key={code} value={code}>
-              {code} - {data.description}
-            </option>
-          )}
-        </Select>
-      </div>
-      <Button onClick={convert} disabled={loading}>
-        {loading ? "Converting..." : "Convert"}
-      </Button>
-      {result !== null && (
-        <Result>
-          {amount} {from} ≈ <span style={{ color: "#00ffe7", fontWeight: "bold" }}>{result.toFixed(2)} {to}</span>
-        </Result>
-      )}
-    </Container>
-  );
 };
 
 export default CurrencyConverter;
