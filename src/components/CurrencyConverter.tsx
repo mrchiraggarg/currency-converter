@@ -123,7 +123,7 @@ const CurrencyConverter: React.FC = () => {
   return (
     <Container>
       <Title>
-        <FaRobot /> Currency Converter
+        {FaRobot as unknown as JSX.Element} Currency Converter
       </Title>
       <div>
         <Input
@@ -141,7 +141,7 @@ const CurrencyConverter: React.FC = () => {
         </Select>
       </div>
       <Button onClick={swap} title="Swap Currencies">
-        <FaSync /> Swap
+        {FaSync as unknown as JSX.Element} Swap
       </Button>
       <div>
         <Select value={to} onChange={e => setTo(e.target.value)}>
