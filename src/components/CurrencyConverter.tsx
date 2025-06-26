@@ -90,8 +90,26 @@ interface CurrencyData {
     }
 }
 
+const defaultCurrencies: CurrencyData = {
+    USD: { description: "United States Dollar" },
+    EUR: { description: "Euro" },
+    GBP: { description: "British Pound Sterling" },
+    JPY: { description: "Japanese Yen" },
+    AUD: { description: "Australian Dollar" },
+    CAD: { description: "Canadian Dollar" },
+    CHF: { description: "Swiss Franc" },
+    CNY: { description: "Chinese Yuan" },
+    INR: { description: "Indian Rupee" },
+    NZD: { description: "New Zealand Dollar" },
+    BRL: { description: "Brazilian Real" },
+    RUB: { description: "Russian Ruble" },
+    KRW: { description: "South Korean Won" },
+    SGD: { description: "Singapore Dollar" },
+    ZAR: { description: "South African Rand" }
+};
+
 const CurrencyConverter: React.FC = () => {
-    const [currencies, setCurrencies] = useState<CurrencyData>({});
+    const [currencies, setCurrencies] = useState<CurrencyData>(defaultCurrencies);
     const [from, setFrom] = useState("USD");
     const [to, setTo] = useState("INR");
     const [amount, setAmount] = useState(1);
@@ -102,7 +120,11 @@ const CurrencyConverter: React.FC = () => {
     useEffect(() => {
         fetch("Requesthttps://api.exchangerate.host/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
             .then(res => res.json())
-            .then(data => setCurrencies(data.symbols));
+            .then(data => {
+                if (data.symbols && Object.keys(data.symbols).length > 0) {
+                    setCurrencies(data.symbols);
+                }
+            });
     }, []);
 
     // Convert on button click
@@ -136,12 +158,11 @@ const CurrencyConverter: React.FC = () => {
                     onChange={e => setAmount(+e.target.value)}
                 />
                 <Select value={from} onChange={e => setFrom(e.target.value)}>
-                    {currencies && Object.entries(currencies).length > 0 &&
-                        Object.entries(currencies).map(([code, data]) => (
-                            <option key={code} value={code}>
-                                {code} - {data.description}
-                            </option>
-                        ))}
+                    {Object.entries(currencies).map(([code, data]) => (
+                        <option key={code} value={code}>
+                            {code} - {data.description}
+                        </option>
+                    ))}
                 </Select>
             </div>
             <Button onClick={swap} title="Swap Currencies">
@@ -149,12 +170,11 @@ const CurrencyConverter: React.FC = () => {
             </Button>
             <div>
                 <Select value={to} onChange={e => setTo(e.target.value)}>
-                    {currencies && Object.entries(currencies).length > 0 &&
-                        Object.entries(currencies).map(([code, data]) => (
-                            <option key={code} value={code}>
-                                {code} - {data.description}
-                            </option>
-                        ))}
+                    {Object.entries(currencies).map(([code, data]) => (
+                        <option key={code} value={code}>
+                            {code} - {data.description}
+                        </option>
+                    ))}
                 </Select>
             </div>
             <Button onClick={convert} disabled={loading}>
