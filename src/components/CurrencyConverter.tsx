@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { FaRobot, FaSync } from "react-icons/fa";
+import { IconBaseProps } from "react-icons";
 
 const futuristicGlow = keyframes`
   0% { box-shadow: 0 0 10px #00ffe7, 0 0 20px #00ffe7, 0 0 30px #00ffe7; }
@@ -123,7 +124,7 @@ const CurrencyConverter: React.FC = () => {
   return (
     <Container>
       <Title>
-        <FaRobot /> Futuristic Currency Converter
+        <FaRobot as={IconBaseProps} /> Futuristic Currency Converter
       </Title>
       <div>
         <Input
