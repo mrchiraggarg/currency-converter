@@ -8,16 +8,19 @@ const futuristicGlow = keyframes`
 `;
 
 const Container = styled.div`
-  background: linear-gradient(135deg, #1b1b1b, #232b3b 70%);
-  padding: 2rem;
-  border-radius: 2rem;
-  width: 350px;
-  margin: 3rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: ${futuristicGlow} 3s alternate infinite;
-  border: 2px solid #00ffe7;
+    background: linear-gradient(135deg, #1b1b1b, #232b3b 70%);
+    padding: 2rem;
+    border-radius: 2rem;
+    width: 350px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: ${futuristicGlow} 3s alternate infinite;
+    border: 2px solid #00ffe7;
 `;
 
 const Title = styled.h1`
