@@ -133,11 +133,12 @@ const CurrencyConverter: React.FC = () => {
                     onChange={e => setAmount(+e.target.value)}
                 />
                 <Select value={from} onChange={e => setFrom(e.target.value)}>
-                    {Object.entries(currencies).map(([code, data]) => (
-                        <option key={code} value={code}>
-                            {code} - {data.description}
-                        </option>
-                    ))}
+                    {currencies && Object.entries(currencies).length > 0 &&
+                        Object.entries(currencies).map(([code, data]) => (
+                            <option key={code} value={code}>
+                                {code} - {data.description}
+                            </option>
+                        ))}
                 </Select>
             </div>
             <Button onClick={swap} title="Swap Currencies">
