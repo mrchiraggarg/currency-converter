@@ -109,7 +109,7 @@ const defaultCurrencies: CurrencyData = {
 };
 
 const CurrencyConverter: React.FC = () => {
-    const [currencies, setCurrencies] = useState<CurrencyData>(defaultCurrencies);
+    const [currencies] = useState<CurrencyData>(defaultCurrencies);
     const [from, setFrom] = useState("USD");
     const [to, setTo] = useState("INR");
     const [amount, setAmount] = useState(1);
@@ -117,21 +117,21 @@ const CurrencyConverter: React.FC = () => {
     const [loading, setLoading] = useState(false);
 
     // Fetch currency symbols
-    useEffect(() => {
-        fetch("Requesthttps://api.exchangerate.host/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
-            .then(res => res.json())
-            .then(data => {
-                if (data.symbols && Object.keys(data.symbols).length > 0) {
-                    setCurrencies(data.symbols);
-                }
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch("https://api.exchangerate.host/live?access_key=97c50ab193f1989aa26e7e380ee4e722")
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             if (data.symbols && Object.keys(data.symbols).length > 0) {
+    //                 setCurrencies(data.symbols);
+    //             }
+    //         });
+    // }, []);
 
     // Convert on button click
     const convert = async () => {
         setLoading(true);
         const res = await fetch(
-            `Requesthttps://api.exchangerate.host/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
+            `https://api.exchangerate.host/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
         );
         const data = await res.json();
         setResult(data.result);
