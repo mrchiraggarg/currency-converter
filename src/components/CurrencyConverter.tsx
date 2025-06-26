@@ -123,7 +123,7 @@ const CurrencyConverter: React.FC = () => {
   return (
     <Container>
       <Title>
-        <FaRobot /> Futuristic Currency Converter
+        <FaRobot /> Currency Converter
       </Title>
       <div>
         <Input
