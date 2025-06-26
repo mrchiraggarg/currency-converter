@@ -82,7 +82,9 @@ const Result = styled.div`
 `;
 
 interface CurrencyData {
-  [key: string]: string
+  [key: string]: {
+    description: string;
+  }
 }
 
 const CurrencyConverter: React.FC = () => {
@@ -95,7 +97,7 @@ const CurrencyConverter: React.FC = () => {
 
   // Fetch currency symbols
   useEffect(() => {
-    fetch("https://api.exchangerate.host/symbols")
+    fetch("http://api.exchangeratesapi.io/v1/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
       .then(res => res.json())
       .then(data => setCurrencies(data.symbols));
   }, []);
@@ -104,7 +106,7 @@ const CurrencyConverter: React.FC = () => {
   const convert = async () => {
     setLoading(true);
     const res = await fetch(
-      `https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`
+      `http://api.exchangeratesapi.io/v1/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
     );
     const data = await res.json();
     setResult(data.result);
