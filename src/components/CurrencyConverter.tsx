@@ -145,11 +145,11 @@ const CurrencyConverter: React.FC = () => {
             </Button>
             <div>
                 <Select value={to} onChange={e => setTo(e.target.value)}>
-                    {Object.entries(currencies).map(([code, data]) =>
+                    {Object.entries(currencies).map(([code, data]) => (
                         <option key={code} value={code}>
                             {code} - {data.description}
                         </option>
-                    )}
+                    ))}
                 </Select>
             </div>
             <Button onClick={convert} disabled={loading}>
