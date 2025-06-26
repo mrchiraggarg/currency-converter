@@ -100,7 +100,7 @@ const CurrencyConverter: React.FC = () => {
 
     // Fetch currency symbols
     useEffect(() => {
-        fetch("http://api.exchangeratesapi.io/v1/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
+        fetch("Requesthttps://api.exchangerate.host/symbols?access_key=97c50ab193f1989aa26e7e380ee4e722")
             .then(res => res.json())
             .then(data => setCurrencies(data.symbols));
     }, []);
@@ -109,7 +109,7 @@ const CurrencyConverter: React.FC = () => {
     const convert = async () => {
         setLoading(true);
         const res = await fetch(
-            `http://api.exchangeratesapi.io/v1/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
+            `Requesthttps://api.exchangerate.host/convert?access_key=97c50ab193f1989aa26e7e380ee4e722&from=${from}&to=${to}&amount=${amount}`
         );
         const data = await res.json();
         setResult(data.result);
