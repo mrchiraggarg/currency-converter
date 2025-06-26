@@ -142,7 +142,8 @@ const CurrencyConverter: React.FC = () => {
                 </Select>
             </div>
             <Button onClick={swap} title="Swap Currencies">
-                <FaSync /> Swap
+                {FaSync({})}
+                Swap
             </Button>
             <div>
                 <Select value={to} onChange={e => setTo(e.target.value)}>
